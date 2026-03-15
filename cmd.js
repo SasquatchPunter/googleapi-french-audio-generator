@@ -158,4 +158,7 @@ function run() {
   }
 }
 
+/**
+ * The parsed commandline argument and options.
+ */
 export default run();

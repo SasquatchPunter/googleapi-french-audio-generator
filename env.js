@@ -31,4 +31,7 @@ try {
   exit(1);
 }
 
+/**
+ * The parsed environment variables with injected fallbacks.
+ */
 export default env;
