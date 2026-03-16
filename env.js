@@ -5,14 +5,15 @@ const dotenv = config({ quiet: true }).parsed ?? {};
 
 /**
  * Resolver that maintains precedence of env variables.
- * If `fallback` parameter is undefined, the resolver throws an error.
+ * If `fallback` parameter is undefined, the resolver throws an error unless `quiet` set to true.
  * @param {string} name
  * @param {string | undefined} fallback
+ * @param {boolean | undefined} quiet
  */
-function resolve(name, fallback) {
+function resolve(name, fallback, quiet) {
   const e = process.env[name] ?? dotenv[name] ?? fallback;
 
-  if (fallback === undefined && e === undefined)
+  if (fallback === undefined && e === undefined && quiet !== true)
     throw TypeError(`Missing environment variable ${name}`);
 
   return e;
@@ -21,11 +22,7 @@ function resolve(name, fallback) {
 const env = {};
 
 try {
-  env.API_KEY = resolve("API_KEY");
-  env.API_ENDPOINT = resolve(
-    "API_ENDPOINT",
-    "https://texttospeech.googleapis.com/v1/text:synthesize",
-  );
+  env.API_KEY = resolve("API_KEY", undefined, true);
 } catch (err) {
   console.log(err.message);
   exit(1);
