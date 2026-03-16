@@ -24,7 +24,7 @@ try {
   env.API_KEY = resolve("API_KEY");
   env.API_ENDPOINT = resolve(
     "API_ENDPOINT",
-    "https://texttospeech.googleapis.com/v1beta1/text:synthesize",
+    "https://texttospeech.googleapis.com/v1/text:synthesize",
   );
 } catch (err) {
   console.log(err.message);

@@ -7,6 +7,7 @@ The file is parsed as a newline-separated list of strings to synthesize speech f
 
 Options:
 -e, --encoding <encoding>                Audio encoding to generate. Default: MP3. Options: MP3, LINEAR16, M4A
+-k, --key                                Google API key. This will take precedence over the API_KEY environment variable.
 -o, --output <output directory>          Directory to write output audio files to.
 -p, --prefix <output prefix>             File prefix to use for output files.
 -h, --help                               Prints the help message.
@@ -43,6 +44,11 @@ const parserConfig = {
       multiple: false,
       short: "p",
       default: "",
+    },
+    key: {
+      type: "string",
+      multiple: false,
+      short: "k",
     },
   },
   tokens: true,
@@ -150,7 +156,25 @@ function checkHelpFlag() {
 function run() {
   try {
     checkHelpFlag();
-    return validateArgs(parseArgs(parserConfig), validatorConfig, parserConfig);
+
+    const args = validateArgs(
+      parseArgs(parserConfig),
+      validatorConfig,
+      parserConfig,
+    );
+
+    return {
+      /** @type {string} */
+      file: args.positionals[0],
+      /** @type {string} */
+      encoding: args.values.encoding,
+      /** @type {string} */
+      output: args.values.output,
+      /** @type {string} */
+      prefix: args.values.prefix,
+      /** @type {string | undefined} */
+      key: args.values.key,
+    };
   } catch (err) {
     console.log(err.message);
     console.log(`\n${usageString}`);
@@ -159,6 +183,6 @@ function run() {
 }
 
 /**
- * The parsed commandline argument and options.
+ * The parsed commandline arguments and options.
  */
 export default run();
