@@ -7,7 +7,8 @@ The file is parsed as a newline-separated list of strings to synthesize speech f
 
 Options:
 -e, --encoding <encoding>                Audio encoding to generate. Default: MP3. Options: MP3, LINEAR16, M4A
--k, --key                                Google API key. This will take precedence over the API_KEY environment variable.
+-d, --delimiter <char>                   Delimiter to use for parsing words from a text file. "\\n" is the default.
+-k, --key <API key>                      Google API key. This will take precedence over the API_KEY environment variable.
 -o, --output <output directory>          Directory to write output audio files to.
 -p, --prefix <output prefix>             File prefix to use for output files.
 -h, --help                               Prints the help message.
@@ -31,7 +32,7 @@ const parserConfig = {
       type: "string",
       multiple: false,
       short: "o",
-      default: import.meta.dirname,
+      default: "./",
     },
     help: {
       type: "boolean",
@@ -49,6 +50,12 @@ const parserConfig = {
       type: "string",
       multiple: false,
       short: "k",
+    },
+    delimiter: {
+      type: "string",
+      multiple: false,
+      short: "d",
+      default: "\n",
     },
   },
   tokens: true,
@@ -71,6 +78,9 @@ const validatorConfig = {
       required: true,
     },
     prefix: {
+      required: true,
+    },
+    delimiter: {
       required: true,
     },
   },
@@ -174,6 +184,8 @@ function run() {
       prefix: args.values.prefix,
       /** @type {string | undefined} */
       key: args.values.key,
+      /** @type {string} */
+      delimiter: args.values.delimiter,
     };
   } catch (err) {
     console.log(err.message);
