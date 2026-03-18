@@ -1,6 +1,6 @@
 import { exit } from "process";
 import { config } from "dotenv";
-import cmd from "./cmd.js";
+import cli from "./cli.js";
 
 const dotenv = config({ quiet: true }).parsed ?? {};
 
@@ -23,7 +23,7 @@ function resolve(name, fallback, quiet) {
 const env = {};
 
 try {
-  env.API_KEY = resolve("API_KEY", undefined, cmd.key !== undefined);
+  env.API_KEY = resolve("API_KEY", undefined, cli.key !== undefined);
 } catch (err) {
   console.log(err.message);
   exit(1);

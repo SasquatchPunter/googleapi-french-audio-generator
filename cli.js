@@ -9,6 +9,7 @@ Options:
 -e, --encoding <encoding>                Audio encoding to generate. Default: MP3. Options: MP3, LINEAR16, M4A
 -d, --delimiter <char>                   Delimiter to use for parsing words from a text file. "\\n" is the default.
 -k, --key <API key>                      Google API key. This will take precedence over the API_KEY environment variable.
+-l, --language <language code>           
 -o, --output <output directory>          Directory to write output audio files to.
 -p, --prefix <output prefix>             File prefix to use for output files.
 -h, --help                               Prints the help message.
@@ -56,6 +57,12 @@ const parserConfig = {
       multiple: false,
       short: "d",
       default: "\n",
+    },
+    language: {
+      type: "string",
+      multiple: false,
+      short: "l",
+      default: "fr-FR",
     },
   },
   tokens: true,
@@ -186,6 +193,8 @@ function run() {
       key: args.values.key,
       /** @type {string} */
       delimiter: args.values.delimiter,
+      /** @type {string} */
+      language: args.values.language,
     };
   } catch (err) {
     console.log(err.message);
