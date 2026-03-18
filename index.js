@@ -7,5 +7,3 @@ const client = new TTSClient({
   audioConfig: { audioEncoding: config.audio.encoding },
   api: { key: config.apiKey },
 });
-
-client.listVoices().then(({ data }) => console.log(data));

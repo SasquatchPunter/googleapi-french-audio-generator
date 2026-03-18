@@ -25,6 +25,9 @@ class TTSClient {
     this.#config = config;
   }
 
+  /**
+   * Fetches list of voices available for the client's language.
+   */
   async listVoices() {
     const requestConfig = {
       method: "GET",
@@ -43,9 +46,8 @@ class TTSClient {
   }
 
   /**
-   *
+   * Synchronously generate a speech file from a text snippet.
    * @param {string} text
-   * @param {*} callback
    */
   async synthesizeSpeech(text) {
     const requestConfig = {
