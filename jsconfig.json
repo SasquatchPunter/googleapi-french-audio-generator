@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "noErrorTruncation": true,
+    "target": "es2022",
+    "moduleResolution": "nodenext",
+    "module": "nodenext"
+  },
+  "exclude": ["node_modules"]
+}
