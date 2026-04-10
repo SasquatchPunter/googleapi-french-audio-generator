@@ -1,9 +1,6 @@
-import { writeFile, mkdir } from "fs/promises";
-import config from "./config.js";
-import { TTSClient } from "./client.js";
+const { load } = require("./src/lib/env.js");
+const { TTSClient } = require("./src/lib/client.js");
 
-const client = new TTSClient({
-  voice: { languageCode: config.audio.language, name: config.audio.name },
-  audioConfig: { audioEncoding: config.audio.encoding },
-  api: { key: config.apiKey },
-});
+load();
+
+const client = new TTSClient({ apiKey: process.env.API_KEY });
