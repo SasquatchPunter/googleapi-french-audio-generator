@@ -33,7 +33,7 @@ function parseBuffer(buffer, delimiter = "\n", encoding = "utf8") {
 async function parseFile(filePath, delimiter = "\n", encoding = "utf8") {
   const file = path.resolve(process.cwd(), filePath);
   const buffer = await fs.readFile(file);
-  return parseBuffer(buffer);
+  return parseBuffer(buffer, delimiter, encoding);
 }
 
 module.exports = {

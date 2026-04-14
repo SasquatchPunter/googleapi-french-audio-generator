@@ -1,4 +1,4 @@
-const { config, parse, populate } = require("dotenv");
+const { config, populate } = require("dotenv");
 
 /**
  * Variable config that's used to validate variables in `process.env`.
@@ -47,7 +47,7 @@ function set(varMap) {
 function populateDefaults() {
   const mappedDefaults = Object.fromEntries(
     Object.entries(validations)
-      .filter(([name, opts]) => opts.default !== undefined)
+      .filter((v) => v[1].default !== undefined)
       .map(([name, opts]) => [name, opts.default]),
   );
   populate(process.env, mappedDefaults, {
