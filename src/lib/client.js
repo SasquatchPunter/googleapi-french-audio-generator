@@ -51,8 +51,9 @@ class TTSClient {
 
   /**
    * Fetches list of voices available for the client's language.
+   * @param {typeof AUDIO_LANGUAGE[keyof typeof AUDIO_LANGUAGE]} lang Language code or codes to list voices for.
    */
-  listVoices() {
+  listVoices(lang = "fr-FR") {
     const url = endpoint + resources[this.config.apiVersion].list;
     const params = {
       languageCode: this.config.audio.language,
