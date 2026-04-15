@@ -69,8 +69,9 @@ class TTSClient {
   /**
    * Synchronously generate a speech file from a input snippet.
    * @param {string} input
+   * @param {AudioConfig} audioOptions
    */
-  synthesizeSpeech(input) {
+  synthesizeSpeech(input, audioOptions = {}) {
     const url = endpoint + resources[this.config.apiVersion].text;
     const method = "POST";
     const headers = {
@@ -82,11 +83,11 @@ class TTSClient {
         text: input,
       },
       voice: {
-        languageCode: this.config.audio.language,
-        name: this.config.audio.name,
+        languageCode: audioOptions.language || this.config.audio.language,
+        name: audioOptions.name || this.config.audio.name,
       },
       audioConfig: {
-        audioEncoding: this.config.audio.encoding,
+        audioEncoding: audioOptions.encoding || this.config.audio.encoding,
       },
     };
 
