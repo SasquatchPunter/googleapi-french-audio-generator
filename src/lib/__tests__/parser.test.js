@@ -1,4 +1,4 @@
-const { parseString, parseBuffer, parseFile } = require("../parse.js");
+const { parseString, parseBuffer, parseFile } = require("../parser.js");
 const path = require("node:path");
 
 describe(parseString, () => {
