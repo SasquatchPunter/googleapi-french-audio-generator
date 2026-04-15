@@ -54,13 +54,16 @@ class TTSClient {
    */
   listVoices() {
     const url = endpoint + resources[this.config.apiVersion].list;
+    const params = {
+      languageCode: this.config.audio.language,
+    };
     const method = "GET";
     const headers = {
       "X-goog-api-key": this.config.apiKey,
       "Content-Type": "application/json",
     };
 
-    return axios({ url, method, headers });
+    return axios({ url, params, method, headers });
   }
 
   /**
