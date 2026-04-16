@@ -48,27 +48,30 @@ class TTSClient {
    * @returns {CompleteClientConfig}
    */
   parseConfig(config) {
-    if (config === undefined) throw Error("Config cannot be undefined!");
+    if (config === undefined) throw Error("Client requires a config object!");
+    if (config.apiKey === undefined)
+      throw Error("Client is missing an API key in its config!");
     if (typeof config.apiKey !== "string" || config.apiKey.length === 0)
-      throw Error("Config option `apiKey` must be set!");
-
-    const audio = initAudioConfig(config.audio || {});
+      throw Error("Client config option `apiKey` must be a non-empty string!");
 
     return {
       apiKey: config.apiKey,
-      apiVersion: config.apiVersion || "v1",
-      audio,
+      apiVersion: config.apiVersion || VERSION.DEFAULT,
+      audio: initAudioConfig(config.audio || {}),
     };
   }
 
   /**
    * Fetches list of voices available for the client's language.
-   * @param {typeof AUDIO_LANGUAGE[keyof typeof AUDIO_LANGUAGE]} lang Language code or codes to list voices for.
+   * @param {typeof AUDIO_LANGUAGE[keyof typeof AUDIO_LANGUAGE] | undefined} language Language code or codes to list voices for.
    */
-  listVoices(lang = "fr-FR") {
+  listVoices(language) {
+    // Validate the optional language param using the initializer logic.
+    initAudioConfig({ ...this.config.audio, language });
+
     const url = endpoint + resources[this.config.apiVersion].list;
     const params = {
-      languageCode: this.config.audio.language,
+      languageCode: language || this.config.audio.language,
     };
     const method = "GET";
     const headers = {
