@@ -1,48 +1,70 @@
 const {
-  initConfig,
   AUDIO_ENCODING,
   AUDIO_LANGUAGE,
   AUDIO_NAMES,
+  initInputConfig,
+  initOutputConfig,
+  initAudioConfig,
 } = require("../config.js");
 
+/** @typedef {import('../config.js').InputConfig} InputConfig */
+/** @typedef {Required<InputConfig>} CompleteInputConfig */
+/** @typedef {import('../config.js').OutputConfig} OutputConfig */
+/** @typedef {Required<OutputConfig>} CompleteOutputConfig */
+/** @typedef {import('../config.js').AudioConfig} AudioConfig */
+/** @typedef {Required<AudioConfig>} CompleteAudioConfig */
+
 describe("config", () => {
-  /** @type {import('../config').APIConfig} */
-  // @ts-ignore
-  let config = {};
+  describe("initAudioConfig", () => {
+    test("loads defaults", () => {
+      /** @type {AudioConfig} */
+      const config = {};
+      /** @type {CompleteAudioConfig} */
+      const expected = {
+        language: AUDIO_LANGUAGE.DEFAULT,
+        name: AUDIO_NAMES.DEFAULT,
+        encoding: AUDIO_ENCODING.DEFAULT,
+      };
+      expect(initAudioConfig(config)).toEqual(expected);
+    });
 
-  beforeEach(() => {
-    // Resets the config to pass validation.
-    config = {
-      apiKey: "test_key",
-      input: {
+    test("throws on invalid config", () => {
+      //@ts-expect-error
+      expect(() => initAudioConfig({ language: "fff" })).toThrow();
+      //@ts-expect-error
+      expect(() => initAudioConfig({ name: "" })).toThrow();
+      //@ts-expect-error
+      expect(() => initAudioConfig({ encoding: "WAV" })).toThrow();
+    });
+  });
+
+  describe("initInputConfig", () => {
+    test("loads defaults", () => {
+      /** @type {InputConfig} */
+      const config = { file: "test.txt" };
+      /** @type {CompleteInputConfig} */
+      const expected = {
         file: "test.txt",
-      },
-    };
+        delimiter: "\n",
+      };
+
+      expect(initInputConfig(config)).toEqual(expected);
+    });
+
+    test("throws on invalid config", () => {
+      //@ts-expect-error
+      expect(() => initInputConfig({})).toThrow();
+    });
   });
 
-  test("config.apiKey throws when undefined", () => {
-    delete config.apiKey;
-    expect(() => initConfig(config)).toThrow();
-  });
+  describe("initOutputConfig", () => {
+    test("loads defaults", () => {
+      /** @type {OutputConfig} */
+      const config = {};
+      /** @type {CompleteOutputConfig} */
+      const expected = { dir: "./", prefix: "" };
 
-  test("input.file throws when undefined", () => {
-    delete config.input.file;
-    expect(() => initConfig(config)).toThrow();
-  });
-
-  test("config properly inits params", () => {
-    const c = initConfig(config);
-    expect(c.apiKey).toEqual("test_key");
-    expect(c.input.file).toEqual("test.txt");
-  });
-
-  test("config properly inits defaults", () => {
-    const c = initConfig(config);
-    expect(c.input.delimiter).toEqual("\n");
-    expect(c.output.dir).toEqual("./");
-    expect(c.output.prefix).toEqual("");
-    expect(c.audio.encoding).toEqual(AUDIO_ENCODING.DEFAULT);
-    expect(c.audio.language).toEqual(AUDIO_LANGUAGE.DEFAULT);
-    expect(c.audio.name).toEqual(AUDIO_NAMES.DEFAULT);
+      expect(initOutputConfig(config)).toEqual(expected);
+    });
   });
 });
