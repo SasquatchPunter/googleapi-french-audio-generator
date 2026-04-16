@@ -1,9 +1,23 @@
 const axios = require("axios");
-const { AUDIO_ENCODING, AUDIO_LANGUAGE, AUDIO_NAMES } = require("./config.js");
+const {
+  AUDIO_ENCODING,
+  AUDIO_LANGUAGE,
+  AUDIO_NAMES,
+  initAudioConfig,
+} = require("./config.js");
 
 /** @typedef {import('./config.js').AudioConfig} AudioConfig */
 /** @typedef {{ audio?: AudioConfig; apiKey: string; apiVersion?: keyof typeof resources }} ClientConfig */
 /** @typedef {{ audio: Required<AudioConfig>; apiKey: string; apiVersion: Required<ClientConfig['apiVersion']>; }} CompleteClientConfig */
+
+/**
+ * @typedef {typeof VERSION[keyof typeof VERSION]} Version
+ */
+const VERSION = Object.freeze({
+  DEFAULT: "v1",
+  V1: "v1",
+  V1_BETA_1: "v1beta1",
+});
 
 const endpoint = "https://texttospeech.googleapis.com";
 const resources = {
@@ -38,14 +52,12 @@ class TTSClient {
     if (typeof config.apiKey !== "string" || config.apiKey.length === 0)
       throw Error("Config option `apiKey` must be set!");
 
+    const audio = initAudioConfig(config.audio || {});
+
     return {
       apiKey: config.apiKey,
       apiVersion: config.apiVersion || "v1",
-      audio: {
-        encoding: config.audio?.encoding || AUDIO_ENCODING.DEFAULT,
-        language: config.audio?.language || AUDIO_LANGUAGE.DEFAULT,
-        name: config.audio?.name || AUDIO_NAMES.DEFAULT,
-      },
+      audio,
     };
   }
 
