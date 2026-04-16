@@ -41,7 +41,7 @@ function initInputConfig(config) {
  */
 function initOutputConfig(config) {
   return {
-    dir: config.dir ?? "./audio",
+    dir: config.dir ?? "./",
     prefix: config.prefix ?? "",
   };
 }
@@ -74,9 +74,9 @@ function initAudioConfig(config) {
   }
 
   return {
-    name: AUDIO_NAMES.DEFAULT,
-    language: AUDIO_LANGUAGE.DEFAULT,
-    encoding: AUDIO_ENCODING.DEFAULT,
+    name: config.name ?? AUDIO_NAMES.DEFAULT,
+    language: config.language ?? AUDIO_LANGUAGE.DEFAULT,
+    encoding: config.encoding ?? AUDIO_ENCODING.DEFAULT,
   };
 }
 
