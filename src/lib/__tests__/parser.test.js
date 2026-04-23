@@ -1,5 +1,6 @@
 const { parseString, parseBuffer, parseFile } = require("../parser.js");
 const path = require("node:path");
+const fs = require("node:fs/promises");
 
 describe(parseString, () => {
   test("parses an empty string into an empty array", () => {
@@ -37,7 +38,10 @@ describe(parseBuffer, () => {
 describe(parseFile, () => {
   describe("parses a text file into an array", () => {
     test("using absolute path", async () => {
-      const filePath = path.resolve(__dirname, "./parse.txt");
+      jest
+        .spyOn(fs, "readFile")
+        .mockResolvedValueOnce(Buffer.from("a\nb\nc\nd"));
+      const filePath = path.resolve(__dirname, "./test.txt");
       expect(await parseFile(filePath)).toEqual(["a", "b", "c", "d"]);
     });
   });

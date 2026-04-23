@@ -26,7 +26,7 @@ function parseBuffer(buffer, delimiter = "\n", encoding = "utf8") {
 
 /**
  * Parses a text file into a text array.
- * @param {string} filePath
+ * @param {string} filePath Filepath relative to the cwd.
  * @param {string} delimiter
  * @param {BufferEncoding} encoding
  */
