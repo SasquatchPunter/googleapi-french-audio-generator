@@ -4,7 +4,6 @@ const {
   createIndex,
   getIndexString,
 } = require("../fs.js");
-const path = require("node:path");
 const fs = require("node:fs/promises");
 
 describe(removeIndex, () => {
