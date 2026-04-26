@@ -4,16 +4,16 @@ const {
   AUDIO_LANGUAGE,
   AUDIO_NAMES,
   initAudioConfig,
-} = require("./config.js");
+} = require("../config.js");
 
-/** @typedef {import('./config.js').AudioConfig} AudioConfig */
+/** @typedef {import('../config.js').AudioConfig} AudioConfig */
 /** @typedef {{ audio?: AudioConfig; apiKey: string; apiVersion?: keyof typeof resources }} ClientConfig */
 /** @typedef {{ audio: Required<AudioConfig>; apiKey: string; apiVersion: Required<ClientConfig['apiVersion']>; }} CompleteClientConfig */
 
 /**
- * @typedef {typeof VERSION[keyof typeof VERSION]} Version
+ * @typedef {typeof CLIENT_VERSION[keyof typeof CLIENT_VERSION]} Version
  */
-const VERSION = Object.freeze({
+const CLIENT_VERSION = Object.freeze({
   DEFAULT: "v1",
   V1: "v1",
   V1_BETA_1: "v1beta1",
@@ -56,7 +56,7 @@ class TTSClient {
 
     return {
       apiKey: config.apiKey,
-      apiVersion: config.apiVersion || VERSION.DEFAULT,
+      apiVersion: config.apiVersion || CLIENT_VERSION.DEFAULT,
       audio: initAudioConfig(config.audio || {}),
     };
   }
@@ -67,6 +67,7 @@ class TTSClient {
    */
   listVoices(language) {
     // Validate the optional language param using the initializer logic.
+    // This is kind of weird though.
     initAudioConfig({ ...this.config.audio, language });
 
     const url = endpoint + resources[this.config.apiVersion].list;
