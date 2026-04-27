@@ -1,4 +1,4 @@
-const { TTSClient } = require("../client.js");
+const { TTSClient } = require("../google.js");
 
 describe("TTSClient", () => {
   it("throws when config is undefined", () => {
