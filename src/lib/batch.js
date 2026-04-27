@@ -6,7 +6,8 @@
 function chunkTasks(queue, length) {
   const chunk = [];
   while (length-- > 0 && queue.length > 0) {
-    chunk.push(queue.pop());
+    const task = queue.pop();
+    if (task !== undefined) chunk.push(task);
   }
   return chunk;
 }

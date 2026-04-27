@@ -26,11 +26,11 @@ describe("chunkRequests()", () => {
 describe("processTaskQueue()", () => {
   const resolveTask = () =>
     new Promise((resolve) => {
-      resolve();
+      resolve(true);
     });
   const rejectTask = () =>
     new Promise((_, reject) => {
-      reject();
+      reject(true);
     });
 
   test("drains a queue fully", async () => {
