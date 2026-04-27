@@ -4,7 +4,9 @@
     "noErrorTruncation": true,
     "target": "es2022",
     "moduleResolution": "nodenext",
-    "module": "nodenext"
+    "module": "nodenext",
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true
   },
   "exclude": ["node_modules"]
 }
